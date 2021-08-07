@@ -26,7 +26,7 @@
 
 HardwareTimer *interruptTimers[18];
 
-void (*pwm_callback_func)();
+void (*pwm_callback_func_ht)();
 static void handleInterrupt(HardwareTimer *timer);
 
 static const uint32_t OCMODE_NOT_USED = 0xFFFF;
@@ -94,7 +94,7 @@ void HardwareTimer::resume() {
 #ifdef TIM2
     if (handle.Instance == TIM2) {
         __HAL_RCC_TIM2_CLK_ENABLE();
-        pwm_callback_func = []() { handleInterrupt(interruptTimers[1]); };
+        pwm_callback_func_ht = []() { handleInterrupt(interruptTimers[1]); };
         interruptTimers[1] = this;
         if (hasInterrupt) {
             HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
